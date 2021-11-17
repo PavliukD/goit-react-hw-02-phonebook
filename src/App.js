@@ -7,7 +7,12 @@ import ContactList from "./components/ContactList/ContactList";
 
 class App extends Component{
   state = {
-    contacts: [],
+    contacts: [
+      {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+      {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
+      {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
+      {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
+    ],
     filter: ''
   }
 
@@ -17,6 +22,12 @@ class App extends Component{
   }
 
   formSubmit = (event) => {
+    if (this.state.contacts.some(contact => {
+      return contact.name.toLowerCase() === event.name.toLowerCase()
+     })){
+       return alert(`${event.name} is already in cotacts`)
+     }
+
     this.setState(prev => {
         return({
           contacts: prev.contacts.concat({
@@ -29,6 +40,7 @@ class App extends Component{
     })
   }
 
+
   filterContacts = () => {
     if (this.state.filter.length === 0){
       return this.state.contacts
@@ -38,6 +50,15 @@ class App extends Component{
     })
   }
 
+  deleteContact = (event) => {
+    const contDelId = this.state.contacts.map(contact => {
+      return contact.id
+    }).indexOf(event.target.parentElement.id)
+    const contacts = [...this.state.contacts]
+    contacts.splice(contDelId, 1)
+    this.setState({contacts})
+  }
+
   render(){
     return (
       <>
@@ -45,7 +66,7 @@ class App extends Component{
         <ContactForm onSubmit = {this.formSubmit}/>
         <h2>Contacts</h2>
         <Filter onChange={this.inputChange} value = {this.state.filter}/>
-        <ContactList contacts = {this.filterContacts()}/>
+        <ContactList contacts = {this.filterContacts()} onClick = {this.deleteContact} />
       </>
     )
   }

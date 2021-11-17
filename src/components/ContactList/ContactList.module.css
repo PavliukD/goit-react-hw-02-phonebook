@@ -1,0 +1,14 @@
+.list{
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+}
+
+.button{
+    margin-left: 10px;
+    height: 20px;
+}
